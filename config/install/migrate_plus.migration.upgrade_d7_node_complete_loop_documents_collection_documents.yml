@@ -1,0 +1,46 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - os2loop_migrate
+  enforced:
+    module:
+      - os2loop_migrate
+id: upgrade_d7_node_complete_loop_documents_collection_documents
+class: Drupal\migrate\Plugin\Migration
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - 'Drupal 7'
+  - Content
+  - os2loop
+migration_group: migrate_drupal_7
+label: 'Collection documents'
+source:
+  plugin: menu_link
+process:
+  collection_id:
+    -
+      plugin: os2loop_collection_document
+    -
+      plugin: skip_on_empty
+      method: row
+  document_id:
+    -
+      plugin: os2loop_collection_document
+    -
+      plugin: skip_on_empty
+      method: row
+  parent_document_id:
+    -
+      plugin: os2loop_collection_document
+  weight:
+    -
+      plugin: os2loop_collection_document
+destination:
+  plugin: 'entity:os2loop_document_collection_item'
+  no_stub: true
+migration_dependencies:
+  required:
+    - upgrade_d7_node_complete_loop_documents_collection
+    - upgrade_d7_node_complete_loop_documents_document
