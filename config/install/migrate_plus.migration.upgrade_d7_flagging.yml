@@ -1,0 +1,67 @@
+uuid: b65f5e6d-fe2a-45f1-946d-932b160bada0
+langcode: en
+status: true
+dependencies: {  }
+id: upgrade_d7_flagging
+class: Drupal\migrate\Plugin\Migration
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - 'Drupal 7'
+  - os2loop
+migration_group: migrate_drupal_7
+label: Flagging
+source:
+  plugin: d7_flagging
+process:
+  id:
+    -
+      plugin: get
+      source: flagging_id
+  flag_id:
+    -
+      # Skip the message_read flagging.
+      plugin: skip_on_value
+      method: row
+      source: fid
+      value:
+        - 2
+    -
+      plugin: get
+      source: name
+  entity_type:
+    -
+      plugin: get
+      source: entity_type
+  entity_id:
+    -
+      plugin: get
+      source: entity_id
+  global:
+    -
+      plugin: get
+      source: global
+  uid:
+    -
+      plugin: get
+      source: uid
+  created:
+    -
+      plugin: get
+      source: timestamp
+destination:
+  plugin: 'entity:flagging'
+migration_dependencies:
+  required:
+    # Flags are defined in config
+    # - upgrade_d7_flag
+    # Users can subcribe to (i.e. flag) content
+    - upgrade_d7_node_complete_page
+    - upgrade_d7_node_complete_external_sources
+    - upgrade_d7_node_complete_post
+    - upgrade_d7_node_complete_loop_documents_document
+    - upgrade_d7_node_complete_loop_documents_collection
+    # Users can upvote comments.
+    - upgrade_d7_comment
+    # - upgrade_d7_message
+#   optional: {  }

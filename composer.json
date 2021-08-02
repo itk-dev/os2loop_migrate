@@ -1,0 +1,47 @@
+{
+    "name": "os2loop/os2loop_migrate",
+    "description": "OS2Loop Migrate",
+    "type": "drupal-module",
+    "homepage": "https://github.com/itk-dev/os2loop_migrate",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Mikkel Ricky",
+            "email": "rimi@aarhus.dk"
+        }
+    ],
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8",
+            "canonical": false
+        }
+    },
+    "require": {
+        "php": ">=7.0.0",
+        "drupal/migrate_tools": "^5.0",
+        "drupal/migrate_upgrade": "^3.2"
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+        "drupal/coder": "^8.3",
+        "mglaman/drupal-check": "^1.1"
+    },
+    "scripts": {
+        "coding-standards-check/drupal-check": [
+            "drupal-check --deprecations --analysis --exclude-dir=vendor ."
+        ],
+        "coding-standards-check/phpcs": [
+            "phpcs --standard=phpcs.xml.dist"
+        ],
+        "coding-standards-check": [
+            "@coding-standards-check/phpcs"
+        ],
+        "coding-standards-apply/phpcs": [
+            "phpcbf --standard=phpcs.xml.dist"
+        ],
+        "coding-standards-apply": [
+            "@coding-standards-apply/phpcs"
+        ]
+    }
+}

@@ -1,0 +1,211 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - os2loop_migrate
+  enforced:
+    module:
+      - os2loop_migrate
+id: upgrade_d7_node_complete_loop_documents_collection
+class: Drupal\node\Plugin\migrate\D7NodeTranslation
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - 'Drupal 7'
+  - Content
+  - os2loop
+migration_group: migrate_drupal_7
+label: 'Node complete (Dokumentsamling)'
+source:
+  plugin: d7_node_complete
+  node_type: loop_documents_collection
+process:
+  nid:
+    -
+      plugin: get
+      source: tnid
+  vid:
+    -
+      plugin: get
+      source: vid
+  langcode:
+    -
+      plugin: default_value
+      source: language
+      default_value: und
+    -
+      # Map undefined language to Danish.
+      plugin: static_map
+      bypass: true
+      map:
+        und: da
+  title:
+    -
+      plugin: get
+      source: title
+  uid:
+    -
+      plugin: get
+      source: node_uid
+  status:
+    -
+      plugin: get
+      source: status
+  created:
+    -
+      plugin: get
+      source: created
+  changed:
+    -
+      plugin: get
+      source: timestamp
+  promote:
+    -
+      plugin: get
+      source: promote
+  sticky:
+    -
+      plugin: get
+      source: sticky
+  revision_uid:
+    -
+      plugin: get
+      source: revision_uid
+  revision_log:
+    -
+      plugin: get
+      source: log
+  revision_timestamp:
+    -
+      plugin: get
+      source: timestamp
+  content_translation_source:
+    -
+      plugin: get
+      source: source_langcode
+  comment_node_loop_documents_collection/0/status:
+    -
+      plugin: get
+      source: comment
+  # field_keyword:
+  os2loop_shared_tags:
+    -
+      plugin: sub_process
+      source: field_keyword
+      process:
+        target_id: tid
+  field_loop_documents_approv_date:
+    -
+      plugin: sub_process
+      source: field_loop_documents_approv_date
+      process:
+        value:
+          plugin: format_date
+          from_format: 'Y-m-d H:i:s'
+          to_format: Y-m-d
+          source: value
+  field_loop_documents_approver:
+    -
+      plugin: get
+      source: field_loop_documents_approver
+  field_loop_documents_contents:
+    -
+      plugin: get
+      source: field_loop_documents_contents
+  field_loop_documents_owner:
+    -
+      plugin: get
+      source: field_loop_documents_owner
+  field_loop_documents_review_date:
+    -
+      plugin: sub_process
+      source: field_loop_documents_review_date
+      process:
+        value:
+          plugin: format_date
+          from_format: 'Y-m-d H:i:s'
+          to_format: Y-m-d
+          source: value
+  field_loop_documents_version:
+    -
+      plugin: get
+      source: field_loop_documents_version
+  # field_subject:
+  os2loop_shared_subject:
+    -
+      plugin: sub_process
+      source: field_subject
+      process:
+        target_id: tid
+  # body:
+  os2loop_documents_dc_content:
+    # -
+    #   plugin: get
+    #   source: body
+    -
+      # Set text format.
+      plugin: sub_process
+      source: body
+      process:
+        value: value
+        format:
+          plugin: default_value
+          default_value: os2loop_documents_rich_text
+  os2loop_documents_info_box:
+    -
+      # Set text format.
+      plugin: sub_process
+      source: field_quickbox
+      process:
+        value: value
+        format:
+          plugin: default_value
+          default_value: os2loop_documents_body
+  os2loop_shared_rev_date:
+    -
+      plugin: sub_process
+      source: field_revision_date
+      process:
+        value:
+          plugin: format_date
+          from_format: 'Y-m-d H:i:s'
+          to_format: Y-m-d
+          source: value
+  os2loop_shared_approval_date:
+    -
+      plugin: sub_process
+      source: field_loop_documents_approv_date
+      process:
+        value:
+          plugin: format_date
+          from_format: 'Y-m-d H:i:s'
+          to_format: Y-m-d
+          source: value
+  os2loop_shared_approver:
+    -
+      plugin: get
+      source: field_loop_documents_approver
+  os2loop_shared_owner:
+    -
+      plugin: get
+      source: field_loop_documents_owner
+  os2loop_shared_version:
+    -
+      plugin: get
+      source: field_loop_documents_version
+destination:
+  plugin: 'entity_complete:node'
+  translations: true
+  default_bundle: os2loop_documents_collection
+migration_dependencies:
+  required:
+    - upgrade_d7_user
+    # Node types are defined in config.
+    # - upgrade_d7_node_type
+    # - upgrade_language
+    - upgrade_d7_taxonomy_term_subject
+    - upgrade_d7_taxonomy_term_keyword
+    - upgrade_d7_taxonomy_term_profession
+  # optional:
+  #   - upgrade_d7_field_instance
+  #   - upgrade_d7_comment_field_instance
