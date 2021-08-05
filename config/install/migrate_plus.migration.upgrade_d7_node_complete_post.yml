@@ -115,7 +115,7 @@ process:
   os2loop_shared_subject:
     -
       plugin: sub_process
-      source: field_keyword
+      source: field_subject
       process:
         target_id: tid
   # field_profession:
@@ -129,7 +129,7 @@ process:
   os2loop_shared_tags:
     -
       plugin: sub_process
-      source: field_subject
+      source: field_keyword
       process:
         target_id: tid
   # field_revision_date:
