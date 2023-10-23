@@ -49,7 +49,7 @@ class CollectionDocument extends ProcessPluginBase implements ContainerFactoryPl
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('os2loop_documents.collection_helper'),
+      $container->get(CollectionHelper::class)
     );
   }
 
